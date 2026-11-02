@@ -50,6 +50,8 @@
 
   .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in{ opacity:1; transform:none; }
+  /* Mobile fallback: never hide content behind scroll-reveal animation. */
+  @media (max-width:760px){ .reveal{ opacity:1 !important; transform:none !important; } }
   @media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none;} html{scroll-behavior:auto;} }
 
   @keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
@@ -612,7 +614,7 @@
   if ('IntersectionObserver' in window){
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.01 });
     els.forEach(el=>io.observe(el));
   } else { els.forEach(el=>el.classList.add('in')); }
 
